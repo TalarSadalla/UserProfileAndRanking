@@ -1,13 +1,14 @@
-package service;
+package serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import model.User;
 import repositoryImpl.UserRepositoryImpl;
+import serviceInterface.UserEditService;
 
 @Service
-public class UserEditService {
+public class UserEditServiceImpl implements UserEditService {
 
 	@Autowired
 	private UserRepositoryImpl userRepositoryImpl;

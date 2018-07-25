@@ -6,7 +6,8 @@ public class Challenge {
 
 	private List<User> usersList;
 	private Game game;
-	private int UserId;
+	private long userId;
+	private long userWithWin;
 
 	public Challenge(List<User> usersList, Game game) {
 		super();
@@ -18,16 +19,16 @@ public class Challenge {
 		return usersList;
 	}
 
-	public void setUsersList(List<User> usersList) {
-		this.usersList = usersList;
-	}
-
 	public Game getGame() {
 		return game;
 	}
 
-	public void setGame(Game game) {
-		this.game = game;
+	public long getUserWithWin() {
+		return userWithWin;
+	}
+
+	public void setUserWithWin(long userId) {
+		this.userWithWin = userWithWin;
 	}
 
 }

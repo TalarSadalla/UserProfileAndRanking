@@ -16,6 +16,8 @@ public interface GameRepository {
 
 	public Game findGameByGameName(String gameName);
 
+	public List<Game> getListOfAllGames();
+
 	public List<Game> findGameByGameType(GameType gameType);
 
 	public List<Game> findGameByMinimumNuberOfPlayers(int numberOfPlayers);

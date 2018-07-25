@@ -9,8 +9,20 @@ public class Statistics {
 	private int userId;
 	private Level level;
 	private int rankingPosition;
-	private int win, loss, drawn;
-	private List<Game> userGameHistory;
+	private int win, loss, draw;
+	private List<Challenge> userGameHistory;
+
+	public Statistics(int userId, Level level, int rankingPosition, int win, int loss, int draw,
+			List<Challenge> userGameHistory) {
+		super();
+		this.userId = userId;
+		this.level = level;
+		this.rankingPosition = rankingPosition;
+		this.win = win;
+		this.loss = loss;
+		this.draw = draw;
+		this.userGameHistory = userGameHistory;
+	}
 
 	public int getWin() {
 		return win;
@@ -28,12 +40,12 @@ public class Statistics {
 		this.loss = loss;
 	}
 
-	public int getDrawn() {
-		return drawn;
+	public int getDraw() {
+		return draw;
 	}
 
-	public void setDrawn(int drawn) {
-		this.drawn = drawn;
+	public void setDraw(int draw) {
+		this.draw = draw;
 	}
 
 	public void addWin() {
@@ -57,7 +69,11 @@ public class Statistics {
 	}
 
 	public int numberOfAllGames() {
-		return win + loss + drawn;
+		return win + loss + draw;
+	}
+
+	public List<Challenge> getUserGameHistory() {
+		return userGameHistory;
 	}
 
 }

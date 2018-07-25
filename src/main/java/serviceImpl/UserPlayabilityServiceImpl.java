@@ -1,4 +1,4 @@
-package service;
+package serviceImpl;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -12,9 +12,10 @@ import model.User;
 import repositoryInterface.AvailabilityRepository;
 import repositoryInterface.ChallengeRepository;
 import repositoryInterface.UserRepository;
+import serviceInterface.UserPlayabilityService;
 
 @Service
-public class UserPlayabilityService {
+public class UserPlayabilityServiceImpl implements UserPlayabilityService {
 
 	@Autowired
 	UserRepository userRepository;
@@ -38,21 +39,25 @@ public class UserPlayabilityService {
 		availabilityRepository.deleteAvailibility(userId, availabilityToDelete, reason);
 	}
 
-	public List<User> listOfAvailableUsersInSimilarAvailableHours(long userId,
-			List<Availability> userAvailabilityList) {
+	public List<User> listOfAvailableUsersInSimilarAvailableHours(long userId) {
 		List<User> userList = userRepository.findAllUsers();
 		Map<Long, List<Availability>> availabilityMap = availabilityRepository.getAllAvailabilities();
-
-		for (Map.Entry<Long, List<Availability>> entry : availabilityMap.entrySet()) {
-			if (entry.getKey() != userId) {
-				for (int i = 0; i < entry.getValue().size(); i++) {
-					LocalTime t = LocalTime.parse("17:40");
-
+		List<Availability> userAvailability = availabilityRepository.getUserAvailabilities(userId);
+		for (Availability availability : userAvailability) {
+			LocalTime userBeginHour = LocalTime.parse(availability.getBeginHour());
+			LocalTime userEndHour = LocalTime.parse(availability.getEndHour());
+			for (Map.Entry<Long, List<Availability>> entry : availabilityMap.entrySet()) {
+				if (entry.getKey() != userId) {
+					for (int i = 0; i < entry.getValue().size(); i++) {
+						if (LocalTime.parse(entry.getValue().get(i).getBeginHour())
+								.isAfter(userBeginHour.minusMinutes(30))
+								&& LocalTime.parse(entry.getValue().get(i).getBeginHour()).isBefore(userEndHour))
+							userList.add(userRepository.findUserById(entry.getKey()));
+					}
 				}
 			}
 		}
-		return null;
-
+		return userList;
 	}
 
 }

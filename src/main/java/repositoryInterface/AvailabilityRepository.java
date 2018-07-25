@@ -14,4 +14,6 @@ public interface AvailabilityRepository {
 	void deleteAvailibility(long userId, Availability availabilityToDelete, String reason);
 
 	Map<Long, List<Availability>> getAllAvailabilities();
+
+	public List<Availability> getUserAvailabilities(long userId);
 }

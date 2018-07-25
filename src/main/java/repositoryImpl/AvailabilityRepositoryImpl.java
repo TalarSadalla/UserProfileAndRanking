@@ -74,4 +74,8 @@ public class AvailabilityRepositoryImpl implements AvailabilityRepository {
 		return fullAvailabilityList;
 	}
 
+	public List<Availability> getUserAvailabilities(long userId) {
+		return fullAvailabilityList.get(userId);
+	}
+
 }

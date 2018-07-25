@@ -88,8 +88,18 @@ public class GameRepositoryImpl implements GameRepository {
 
 	@Override
 	public List<Game> findGameByMaximumNuberOfPlayers(int numberOfPlayers) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Game> gameListByNumberOfPlayers = null;
+		for (int i = 0; i < fullGameList.size(); i++) {
+			if (fullGameList.get(i).getMaximumNumberOfPlayers() >= numberOfPlayers) {
+				gameListByNumberOfPlayers.add(fullGameList.get(i));
+			}
+		}
+		return gameListByNumberOfPlayers;
+	}
+
+	@Override
+	public List<Game> getListOfAllGames() {
+		return fullGameList;
 	}
 
 }
