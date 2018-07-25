@@ -1,10 +1,10 @@
 package serviceInterface;
 
-import model.User;
+import dto.UserTO;
 
 public interface UserEditService {
 
-	public void editUser(long userId, User user);
+	public void editUser(long userId, UserTO userTO);
 
-	public User showUser(long userId);
+	public UserTO showUser(long userId);
 }

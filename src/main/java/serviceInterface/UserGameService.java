@@ -2,13 +2,13 @@ package serviceInterface;
 
 import java.util.List;
 
-import model.Game;
+import dto.GameTO;
 
 public interface UserGameService {
 
-	public void addGame(long userId, Game game);
+	public void addGame(long userId, GameTO gameTO);
 
-	public List<Game> userGameCollection(long userId);
+	public List<GameTO> userGameCollection(long userId);
 
-	public void removeGameFromUserCollection(long userId, Game game);
+	public void removeGameFromUserCollection(long userId, GameTO gameTO);
 }

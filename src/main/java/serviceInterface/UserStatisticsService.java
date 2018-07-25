@@ -2,18 +2,18 @@ package serviceInterface;
 
 import java.util.List;
 
-import enums.Level;
-import model.Challenge;
-import model.Statistics;
+import dto.ChallengeTO;
+import dto.LevelTO;
+import dto.StatisticsTO;
 
 public interface UserStatisticsService {
 
-	Statistics getUserStatistics(long userId);
+	StatisticsTO getUserStatistics(long userId);
 
-	Level getUserLevel(long userId);
+	LevelTO getUserLevel(long userId);
 
 	int getUserRanking(long userId);
 
-	List<Challenge> getUserChallengeHistory(long userId);
+	List<ChallengeTO> getUserChallengeHistory(long userId);
 
 }

@@ -4,11 +4,13 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dto.AvailabilityTO;
+import dto.UserTO;
 import model.Availability;
-import model.User;
 import repositoryInterface.AvailabilityRepository;
 import repositoryInterface.ChallengeRepository;
 import repositoryInterface.UserRepository;
@@ -26,21 +28,32 @@ public class UserPlayabilityServiceImpl implements UserPlayabilityService {
 	@Autowired
 	ChallengeRepository challengeRepository;
 
+	@Autowired
+	private ModelMapper modelMapper;
+
 	public void addUserAvailabilityHours(Long userId, String beginHour, String endHour) {
 		availabilityRepository.addAvailibility(userId, beginHour, endHour);
-
 	}
 
-	public void editUserAvailabilityHours(Long userId, Availability oldAvailability, Availability newAvailability) {
+	public void addUserAvailabilityHours(Long userId, AvailabilityTO availabilityTO) {
+		Availability newAvailability = modelMapper.map(availabilityTO, Availability.class);
+		availabilityRepository.addAvailibility(userId, newAvailability);
+	}
+
+	public void editUserAvailabilityHours(Long userId, AvailabilityTO oldAvailabilityTO,
+			AvailabilityTO newAvailabilityTO) {
+		Availability oldAvailability = modelMapper.map(oldAvailabilityTO, Availability.class);
+		Availability newAvailability = modelMapper.map(newAvailabilityTO, Availability.class);
 		availabilityRepository.editAvailibility(userId, oldAvailability, newAvailability);
 	}
 
-	public void deleteUserAvailabilityHours(long userId, Availability availabilityToDelete, String reason) {
+	public void deleteUserAvailabilityHours(long userId, AvailabilityTO availabilityToDeleteTO, String reason) {
+		Availability availabilityToDelete = modelMapper.map(availabilityToDeleteTO, Availability.class);
 		availabilityRepository.deleteAvailibility(userId, availabilityToDelete, reason);
 	}
 
-	public List<User> listOfAvailableUsersInSimilarAvailableHours(long userId) {
-		List<User> userList = userRepository.findAllUsers();
+	public List<UserTO> listOfAvailableUsersInSimilarAvailableHours(long userId) {
+		List<UserTO> userList = modelMapper.map(userRepository.findAllUsers(), UserTO.class);
 		Map<Long, List<Availability>> availabilityMap = availabilityRepository.getAllAvailabilities();
 		List<Availability> userAvailability = availabilityRepository.getUserAvailabilities(userId);
 		for (Availability availability : userAvailability) {
@@ -52,7 +65,7 @@ public class UserPlayabilityServiceImpl implements UserPlayabilityService {
 						if (LocalTime.parse(entry.getValue().get(i).getBeginHour())
 								.isAfter(userBeginHour.minusMinutes(30))
 								&& LocalTime.parse(entry.getValue().get(i).getBeginHour()).isBefore(userEndHour))
-							userList.add(userRepository.findUserById(entry.getKey()));
+							userList.add(modelMapper.map(userRepository.findUserById(entry.getKey()), UserTO.class));
 					}
 				}
 			}

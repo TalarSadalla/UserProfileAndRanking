@@ -1,4 +1,4 @@
-package model;
+package dto;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -7,11 +7,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.stereotype.Component;
 
 import enums.Level;
+import model.Challenge;
 
-public class Statistics {
-
+@Component
+public class StatisticsTO {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private AtomicLong uniqueId;
@@ -22,7 +24,7 @@ public class Statistics {
 	private int win, loss, draw;
 	private List<Challenge> userGameHistory;
 
-	public Statistics(int userId, Level level, int rankingPosition, int win, int loss, int draw,
+	public StatisticsTO(int userId, Level level, int rankingPosition, int win, int loss, int draw,
 			List<Challenge> userGameHistory) {
 		super();
 		this.gameId = uniqueId.incrementAndGet();

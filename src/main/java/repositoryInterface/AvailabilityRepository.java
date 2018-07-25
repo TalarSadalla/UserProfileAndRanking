@@ -9,6 +9,8 @@ public interface AvailabilityRepository {
 
 	void addAvailibility(long userId, String beginHour, String endHour);
 
+	void addAvailibility(long userId, Availability availability);
+
 	void editAvailibility(long userId, Availability oldAvailability, Availability newAvailability);
 
 	void deleteAvailibility(long userId, Availability availabilityToDelete, String reason);

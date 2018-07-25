@@ -2,17 +2,20 @@ package serviceInterface;
 
 import java.util.List;
 
-import model.Availability;
-import model.User;
+import dto.AvailabilityTO;
+import dto.UserTO;
 
 public interface UserPlayabilityService {
 
 	public void addUserAvailabilityHours(Long userId, String beginHour, String endHour);
 
-	public void editUserAvailabilityHours(Long userId, Availability oldAvailability, Availability newAvailability);
+	public void addUserAvailabilityHours(Long userId, AvailabilityTO availabilityTO);
 
-	public void deleteUserAvailabilityHours(long userId, Availability availabilityToDelete, String reason);
+	public void editUserAvailabilityHours(Long userId, AvailabilityTO oldAvailabilityTO,
+			AvailabilityTO newAvailabilityTO);
 
-	public List<User> listOfAvailableUsersInSimilarAvailableHours(long userId);
+	public void deleteUserAvailabilityHours(long userId, AvailabilityTO availabilityToDeleteTO, String reason);
+
+	public List<UserTO> listOfAvailableUsersInSimilarAvailableHours(long userId);
 
 }

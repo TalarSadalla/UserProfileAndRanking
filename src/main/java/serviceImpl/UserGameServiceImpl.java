@@ -1,10 +1,13 @@
 package serviceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dto.GameTO;
 import model.Game;
 import repositoryInterface.GameRepository;
 import repositoryInterface.UserRepository;
@@ -19,7 +22,11 @@ public class UserGameServiceImpl implements UserGameService {
 	@Autowired
 	GameRepository gameRepository;
 
-	public void addGame(long userId, Game game) {
+	@Autowired
+	private ModelMapper modelMapper;
+
+	public void addGame(long userId, GameTO gameTO) {
+		Game game = modelMapper.map(gameTO, Game.class);
 		List<Game> userGamesList = userRepository.getUserGameList(userId);
 		List<Game> fullGameList = gameRepository.getListOfAllGames();
 		for (int i = 0; i < fullGameList.size(); i++) {
@@ -36,14 +43,18 @@ public class UserGameServiceImpl implements UserGameService {
 		}
 	}
 
-	public List<Game> userGameCollection(long userId) {
-		return userRepository.getUserGameList(userId);
+	public List<GameTO> userGameCollection(long userId) {
+		List<GameTO> userGameTOList = new ArrayList<>();
+		List<Game> userGameList = userRepository.getUserGameList(userId);
+		userGameTOList.add(modelMapper.map(userGameList, GameTO.class));
+		return userGameTOList;
 	}
 
-	public void removeGameFromUserCollection(long userId, Game game) {
-		List<Game> userGameCollectionList = userGameCollection(userId);
-		Game gameToDelete = gameRepository.findGameByGameName(game.getGameName());
-		userGameCollectionList.remove(gameToDelete);
+	public void removeGameFromUserCollection(long userId, GameTO gameTO) {
+		Game game = modelMapper.map(gameTO, Game.class);
+		List<GameTO> userGameCollectionList = userGameCollection(userId);
+		GameTO gameToDeleteTO = modelMapper.map(gameRepository.findGameByGameName(game.getGameName()), GameTO.class);
+		userGameCollectionList.remove(gameToDeleteTO);
 	}
 
 }

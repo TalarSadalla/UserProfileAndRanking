@@ -40,6 +40,13 @@ public class AvailabilityRepositoryImpl implements AvailabilityRepository {
 	}
 
 	@Override
+	public void addAvailibility(long userId, Availability availability) {
+		List<Availability> availabilityList = fullAvailabilityList.get(userId);
+		availabilityList.add(availability);
+		fullAvailabilityList.put(userId, availabilityList);
+	}
+
+	@Override
 	public void editAvailibility(long userId, Availability oldAvailability, Availability newAvailability) {
 		if (userId < 0 || userId > fullAvailabilityList.size())
 			throw new IndexOutOfBoundsException();

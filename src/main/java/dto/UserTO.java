@@ -1,19 +1,18 @@
-package model;
+package dto;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Table;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.stereotype.Component;
 
-@Entity
-@Table(name = "USER")
-public class User {
+import model.Game;
 
+@Component
+public class UserTO {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private AtomicLong uniqueId;
@@ -26,7 +25,7 @@ public class User {
 	private String liveMotto;
 	private List<Game> userGamesList;
 
-	private User(UserBuilder builder) {
+	private UserTO(UserBuilder builder) {
 		this.firstName = builder.firstName;
 		this.lastName = builder.lastName;
 		this.password = builder.password;
@@ -34,7 +33,7 @@ public class User {
 		this.liveMotto = builder.liveMotto;
 	}
 
-	public User(String firstName, String lastName, String password, String email, String liveMotto) {
+	public UserTO(String firstName, String lastName, String password, String email, String liveMotto) {
 		super();
 		this.userId = uniqueId.incrementAndGet();
 		this.firstName = firstName;
@@ -115,8 +114,8 @@ public class User {
 			return this;
 		}
 
-		public User build() {
-			return new User(this);
+		public UserTO build() {
+			return new UserTO(this);
 		}
 
 	}

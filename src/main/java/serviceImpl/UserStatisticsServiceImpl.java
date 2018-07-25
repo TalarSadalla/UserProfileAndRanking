@@ -2,12 +2,13 @@ package serviceImpl;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import enums.Level;
-import model.Challenge;
-import model.Statistics;
+import dto.ChallengeTO;
+import dto.LevelTO;
+import dto.StatisticsTO;
 import repositoryInterface.StatisticsRepository;
 import serviceInterface.UserStatisticsService;
 
@@ -17,14 +18,17 @@ public class UserStatisticsServiceImpl implements UserStatisticsService {
 	@Autowired
 	StatisticsRepository statisticsRepository;
 
+	@Autowired
+	private ModelMapper modelMapper;
+
 	@Override
-	public Statistics getUserStatistics(long userId) {
-		return statisticsRepository.getUserStatistics(userId);
+	public StatisticsTO getUserStatistics(long userId) {
+		return modelMapper.map(statisticsRepository.getUserStatistics(userId), StatisticsTO.class);
 	}
 
 	@Override
-	public Level getUserLevel(long userId) {
-		return statisticsRepository.getUserLevel(userId);
+	public LevelTO getUserLevel(long userId) {
+		return modelMapper.map(statisticsRepository.getUserLevel(userId), LevelTO.class);
 	}
 
 	@Override
@@ -33,8 +37,8 @@ public class UserStatisticsServiceImpl implements UserStatisticsService {
 	}
 
 	@Override
-	public List<Challenge> getUserChallengeHistory(long userId) {
-		return statisticsRepository.getUserGameHistory(userId);
+	public List<ChallengeTO> getUserChallengeHistory(long userId) {
+		return modelMapper.map(statisticsRepository.getUserGameHistory(userId), ChallengeTO.class);
 	}
 
 }
