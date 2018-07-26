@@ -1,20 +1,10 @@
 package model;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-
-import org.springframework.data.annotation.Id;
 
 import enums.Level;
 
 public class Statistics {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private AtomicLong uniqueId;
 
 	private long gameId;
 	private Level level;
@@ -22,10 +12,14 @@ public class Statistics {
 	private int win, loss, draw;
 	private List<Challenge> userGameHistory;
 
+	public Statistics() {
+		super();
+	}
+
 	public Statistics(int userId, Level level, int rankingPosition, int win, int loss, int draw,
 			List<Challenge> userGameHistory) {
 		super();
-		this.gameId = uniqueId.incrementAndGet();
+		this.gameId = userId;
 		this.level = level;
 		this.rankingPosition = rankingPosition;
 		this.win = win;
@@ -59,15 +53,15 @@ public class Statistics {
 	}
 
 	public void addWin() {
-		this.win = this.win++;
+		win++;
 	}
 
 	public void addLoss() {
-		this.win = this.win++;
+		loss++;
 	}
 
 	public void addDraw() {
-		this.win = this.win++;
+		draw++;
 	}
 
 	public Level getLevel() {
@@ -84,6 +78,12 @@ public class Statistics {
 
 	public List<Challenge> getUserGameHistory() {
 		return userGameHistory;
+	}
+
+	@Override
+	public String toString() {
+		return "Statistics [gameId=" + gameId + ", level=" + level + ", rankingPosition=" + rankingPosition + ", win="
+				+ win + ", loss=" + loss + ", draw=" + draw + "]";
 	}
 
 }

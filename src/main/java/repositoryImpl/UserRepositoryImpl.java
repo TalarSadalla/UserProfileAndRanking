@@ -1,5 +1,6 @@
 package repositoryImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -12,13 +13,15 @@ import repositoryInterface.UserRepository;
 @Repository
 public class UserRepositoryImpl implements UserRepository {
 
-	List<User> userList;
+	List<User> userList = new ArrayList<>();
 
 	public void initialize() {
-		userList.add(new User("Talar", "Sadalla", "password", "talarsadalla@yahoo.com", "Just keep walking"));
-		userList.add(new User("Joanna", "Polanska", "hehe", "joanna@gmail.com", "Just nike"));
-		userList.add(new User("Marcin", "Nowak", "password", "nowak@wp.pl", "Yolo"));
-		userList.add(new User("Olek", "Tomaszewski", "1234", "olek@yahoo.com", "Let the force be with You"));
+		userList.add(new User("Talar", "Sadalla", "password", "talarsadalla@yahoo.com", "Just keep walking",
+				new ArrayList<>()));
+		userList.add(new User("Joanna", "Polanska", "hehe", "joanna@gmail.com", "Just nike", new ArrayList<>()));
+		userList.add(new User("Marcin", "Sadalla", "password", "nowak@wp.pl", "Yolo", new ArrayList<>()));
+		userList.add(new User("Olek", "Tomaszewski", "1234", "olek@yahoo.com", "Let the force be with You",
+				new ArrayList<>()));
 	}
 
 	@Override
@@ -57,7 +60,7 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public List<User> findUserByFirstName(String firstName) {
-		List<User> usersWithFirstName = null;
+		List<User> usersWithFirstName = new ArrayList<>();
 		for (int i = 0; i < userList.size(); i++) {
 			if (userList.get(i).getFirstName().equals(firstName)) {
 				usersWithFirstName.add(userList.get(i));
@@ -68,9 +71,9 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public List<User> findUserByLastName(String lastName) {
-		List<User> usersWithLastName = null;
+		List<User> usersWithLastName = new ArrayList<>();
 		for (int i = 0; i < userList.size(); i++) {
-			if (userList.get(i).getFirstName().equals(lastName)) {
+			if (userList.get(i).getLastName().equals(lastName)) {
 				usersWithLastName.add(userList.get(i));
 			}
 		}
@@ -79,7 +82,7 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public List<User> findUserByFirstNameAndLastName(String firstName, String lastName) {
-		List<User> usersWithFirstNameLastName = null;
+		List<User> usersWithFirstNameLastName = new ArrayList<>();
 		for (int i = 0; i < userList.size(); i++) {
 			if (userList.get(i).getFirstName().equals(firstName) && userList.get(i).getLastName().equals(lastName)) {
 				usersWithFirstNameLastName.add(userList.get(i));
@@ -90,7 +93,7 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public List<User> findUserByEmail(String email) {
-		List<User> usersWithEmail = null;
+		List<User> usersWithEmail = new ArrayList<>();
 		for (int i = 0; i < userList.size(); i++) {
 			if (userList.get(i).getEmail().equals(email)) {
 				usersWithEmail.add(userList.get(i));
@@ -105,7 +108,6 @@ public class UserRepositoryImpl implements UserRepository {
 		List<Game> userGamesList = user.getUserGamesList();
 		userGamesList.add(game);
 		user.setUserGamesList(userGamesList);
-
 	}
 
 	@Override
@@ -113,6 +115,14 @@ public class UserRepositoryImpl implements UserRepository {
 		User user = findUserById(userId);
 		List<Game> userGamesList = user.getUserGamesList();
 		return userGamesList;
+	}
+
+	@Override
+	public Game deleteGame(long userId, Game game) {
+		User user = findUserById(userId);
+		List<Game> userGamesList = user.getUserGamesList();
+		userGamesList.remove(game);
+		return game;
 	}
 
 }

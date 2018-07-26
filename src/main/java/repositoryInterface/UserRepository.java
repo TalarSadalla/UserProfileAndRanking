@@ -25,6 +25,8 @@ public interface UserRepository {
 
 	void addGame(long userId, Game game);
 
+	Game deleteGame(long userId, Game game);
+
 	List<Game> getUserGameList(long userId);
 
 }

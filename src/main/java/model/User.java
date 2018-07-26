@@ -16,7 +16,7 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private AtomicLong uniqueId;
+	private static AtomicLong uniqueId = new AtomicLong(1);
 
 	private long userId;
 	private String firstName;
@@ -26,6 +26,10 @@ public class User {
 	private String liveMotto;
 	private List<Game> userGamesList;
 
+	public User() {
+		super();
+	}
+
 	private User(UserBuilder builder) {
 		this.firstName = builder.firstName;
 		this.lastName = builder.lastName;
@@ -34,18 +38,24 @@ public class User {
 		this.liveMotto = builder.liveMotto;
 	}
 
-	public User(String firstName, String lastName, String password, String email, String liveMotto) {
+	public User(String firstName, String lastName, String password, String email, String liveMotto,
+			List<Game> userGamesList) {
 		super();
-		this.userId = uniqueId.incrementAndGet();
+		this.userId = incrementId();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.password = password;
 		this.email = email;
 		this.liveMotto = liveMotto;
+		this.userGamesList = userGamesList;
 	}
 
 	public long getId() {
 		return userId;
+	}
+
+	private static long incrementId() {
+		return uniqueId.getAndIncrement();
 	}
 
 	public String getFirstName() {
@@ -94,6 +104,12 @@ public class User {
 
 	public void setUserGamesList(List<Game> userGamesList) {
 		this.userGamesList = userGamesList;
+	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", password="
+				+ password + ", email=" + email + ", liveMotto=" + liveMotto + "]";
 	}
 
 	public static class UserBuilder {

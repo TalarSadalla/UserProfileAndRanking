@@ -12,8 +12,6 @@ public interface StatisticsRepository {
 
 	Level getUserLevel(long userId);
 
-	Level getUserLevel(long userId, int points);
-
 	int getUserCurrentRanking(long userId);
 
 	List<Challenge> getUserGameHistory(long userId);

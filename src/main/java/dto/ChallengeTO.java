@@ -34,7 +34,7 @@ public class ChallengeTO {
 	}
 
 	public void setUserWithWin(long userId) {
-		this.userWithWin = userWithWin;
+		this.userWithWin = userId;
 	}
 
 }

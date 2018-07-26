@@ -9,6 +9,10 @@ public class Challenge {
 	private long userId;
 	private long userWithWin;
 
+	public Challenge() {
+		super();
+	}
+
 	public Challenge(List<User> usersList, Game game) {
 		super();
 		this.usersList = usersList;
@@ -28,7 +32,7 @@ public class Challenge {
 	}
 
 	public void setUserWithWin(long userId) {
-		this.userWithWin = userWithWin;
+		this.userWithWin = userId;
 	}
 
 }

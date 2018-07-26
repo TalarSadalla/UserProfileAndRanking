@@ -12,16 +12,16 @@ public interface GameRepository {
 
 	void addGame(Game game);
 
-	Game findGameById(int gameId);
+	Game findGameById(long gameId);
 
-	public Game findGameByGameName(String gameName);
+	Game findGameByGameName(String gameName);
 
-	public List<Game> getListOfAllGames();
+	List<Game> getListOfAllGames();
 
-	public List<Game> findGameByGameType(GameType gameType);
+	List<Game> findGameByGameType(GameType gameType);
 
-	public List<Game> findGameByMinimumNuberOfPlayers(int numberOfPlayers);
+	List<Game> findGameByMinimumNuberOfPlayers(int numberOfPlayers);
 
-	public List<Game> findGameByMaximumNuberOfPlayers(int numberOfPlayers);
+	List<Game> findGameByMaximumNuberOfPlayers(int numberOfPlayers);
 
 }

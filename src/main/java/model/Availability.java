@@ -19,6 +19,10 @@ public class Availability {
 	private String endHour;
 	private String comment;
 
+	public Availability() {
+		super();
+	}
+
 	public Availability(long userId, String beginHour, String endHour) {
 		super();
 		this.userId = userId;
@@ -28,6 +32,14 @@ public class Availability {
 
 	public long getId() {
 		return userId;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 	public String getBeginHour() {
@@ -52,6 +64,12 @@ public class Availability {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	@Override
+	public String toString() {
+		return "Availability [userId=" + userId + ", beginHour=" + beginHour + ", endHour=" + endHour + ", comment="
+				+ comment + "]";
 	}
 
 }

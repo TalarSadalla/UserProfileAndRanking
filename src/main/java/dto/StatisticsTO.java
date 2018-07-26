@@ -61,15 +61,15 @@ public class StatisticsTO {
 	}
 
 	public void addWin() {
-		this.win = this.win++;
+		win++;
 	}
 
 	public void addLoss() {
-		this.win = this.win++;
+		loss++;
 	}
 
 	public void addDraw() {
-		this.win = this.win++;
+		draw++;
 	}
 
 	public Level getLevel() {

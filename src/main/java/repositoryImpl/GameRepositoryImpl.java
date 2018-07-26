@@ -1,5 +1,6 @@
 package repositoryImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -12,21 +13,20 @@ import repositoryInterface.GameRepository;
 @Repository
 public class GameRepositoryImpl implements GameRepository {
 
-	List<Game> gameList;
-	List<Game> fullGameList;
+	private List<Game> fullGameList = new ArrayList<>();
 
 	public void Initialize() {
 		fullGameList.add(new Game("Monopoly", GameType.WORKER_PLACEMENT, 2, 8, 1.5, true));
 		fullGameList.add(new Game("Warhammer", GameType.DECK_BUILDERS, 2, 4, 6, false));
 		fullGameList.add(new Game("Scrabble", GameType.WORKER_PLACEMENT, 2, 4, 2, true));
 		fullGameList.add(new Game("Chess", GameType.COMBAT, 2, 2, 1.5, true));
-		fullGameList.add(new Game("Tousand", GameType.COMBAT, 2, 4, 30, true));
+		fullGameList.add(new Game("Tousand", GameType.AREA_CONTROL, 2, 4, 30, true));
 	}
 
 	@Override
 	public void addGame(String gameName, GameType gameType, int minimumNumberOfPlayers, int maximumNumberOfPlayers,
 			double gameDuration, boolean oneBoardFlag) {
-		Game newGame = null;
+		Game newGame = new Game();
 		newGame.setGameName(gameName);
 		newGame.setGameType(gameType);
 		newGame.setMinimumNumberOfPlayers(minimumNumberOfPlayers);
@@ -43,8 +43,8 @@ public class GameRepositoryImpl implements GameRepository {
 	}
 
 	@Override
-	public Game findGameById(int gameId) {
-		if (gameId < 0 || gameId > fullGameList.size())
+	public Game findGameById(long gameId) {
+		if (gameId <= 0 || gameId > fullGameList.size())
 			throw new IndexOutOfBoundsException();
 		for (int i = 0; i < fullGameList.size(); i++) {
 			if (fullGameList.get(i).getGameId() == gameId) {
@@ -66,7 +66,7 @@ public class GameRepositoryImpl implements GameRepository {
 
 	@Override
 	public List<Game> findGameByGameType(GameType gameType) {
-		List<Game> gameListByType = null;
+		List<Game> gameListByType = new ArrayList<>();
 		for (int i = 0; i < fullGameList.size(); i++) {
 			if (fullGameList.get(i).getGameType().equals(gameType)) {
 				gameListByType.add(fullGameList.get(i));
@@ -77,7 +77,7 @@ public class GameRepositoryImpl implements GameRepository {
 
 	@Override
 	public List<Game> findGameByMinimumNuberOfPlayers(int numberOfPlayers) {
-		List<Game> gameListByNumberOfPlayers = null;
+		List<Game> gameListByNumberOfPlayers = new ArrayList<>();
 		for (int i = 0; i < fullGameList.size(); i++) {
 			if (fullGameList.get(i).getMinimumNumberOfPlayers() >= numberOfPlayers) {
 				gameListByNumberOfPlayers.add(fullGameList.get(i));
@@ -88,9 +88,9 @@ public class GameRepositoryImpl implements GameRepository {
 
 	@Override
 	public List<Game> findGameByMaximumNuberOfPlayers(int numberOfPlayers) {
-		List<Game> gameListByNumberOfPlayers = null;
+		List<Game> gameListByNumberOfPlayers = new ArrayList<>();
 		for (int i = 0; i < fullGameList.size(); i++) {
-			if (fullGameList.get(i).getMaximumNumberOfPlayers() >= numberOfPlayers) {
+			if (fullGameList.get(i).getMaximumNumberOfPlayers() <= numberOfPlayers) {
 				gameListByNumberOfPlayers.add(fullGameList.get(i));
 			}
 		}

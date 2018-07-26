@@ -12,6 +12,10 @@ public interface ChallengeRepository {
 
 	void setGameWinner(Long userId, Challenge challenge);
 
+	long getGameWinner(Challenge challenge);
+
 	Challenge getChallenge(Game game);
+
+	List<Challenge> getChallengeList();
 
 }

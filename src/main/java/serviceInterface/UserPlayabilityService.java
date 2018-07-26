@@ -9,7 +9,7 @@ public interface UserPlayabilityService {
 
 	public void addUserAvailabilityHours(Long userId, String beginHour, String endHour);
 
-	public void addUserAvailabilityHours(Long userId, AvailabilityTO availabilityTO);
+	public void addUserAvailabilityHours(AvailabilityTO availabilityTO);
 
 	public void editUserAvailabilityHours(Long userId, AvailabilityTO oldAvailabilityTO,
 			AvailabilityTO newAvailabilityTO);

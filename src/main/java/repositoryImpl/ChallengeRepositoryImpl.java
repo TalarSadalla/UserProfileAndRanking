@@ -1,5 +1,6 @@
 package repositoryImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -14,31 +15,38 @@ import repositoryInterface.ChallengeRepository;
 @Repository
 public class ChallengeRepositoryImpl implements ChallengeRepository {
 
-	List<Challenge> challengelist;
-	List<User> userList1;
-	List<User> userList2;
-	List<User> userList3;
-	List<User> userList4;
-	List<Game> fullGameList;
+	private List<Challenge> challengelist = new ArrayList<>();
+	private List<User> userList1 = new ArrayList<>();
+	private List<User> userList2 = new ArrayList<>();
+	private List<User> userList3 = new ArrayList<>();
+	private List<User> userList4 = new ArrayList<>();
+	private List<Game> fullGameList = new ArrayList<>();
 
 	public void initialize() {
 
-		userList1.add(new User("Talar", "Sadalla", "password", "talarsadalla@yahoo.com", "Just keep walking"));
-		userList1.add(new User("Joanna", "Polanska", "hehe", "joanna@gmail.com", "Just nike"));
-		userList1.add(new User("Marcin", "Nowak", "password", "nowak@wp.pl", "Yolo"));
-		userList1.add(new User("Olek", "Tomaszewski", "1234", "olek@yahoo.com", "Let the force be with You"));
+		userList1.add(new User("Talar", "Sadalla", "password", "talarsadalla@yahoo.com", "Just keep walking",
+				new ArrayList<>()));
+		userList1.add(new User("Joanna", "Polanska", "hehe", "joanna@gmail.com", "Just nike", new ArrayList<>()));
+		userList1.add(new User("Marcin", "Nowak", "password", "nowak@wp.pl", "Yolo", new ArrayList<>()));
+		userList1.add(new User("Olek", "Tomaszewski", "1234", "olek@yahoo.com", "Let the force be with You",
+				new ArrayList<>()));
 
-		userList2.add(new User("Talar", "Sadalla", "password", "talarsadalla@yahoo.com", "Just keep walking"));
-		userList2.add(new User("Joanna", "Polanska", "hehe", "joanna@gmail.com", "Just nike"));
-		userList2.add(new User("Marcin", "Nowak", "password", "nowak@wp.pl", "Yolo"));
+		userList2.add(new User("Talar", "Sadalla", "password", "talarsadalla@yahoo.com", "Just keep walking",
+				new ArrayList<>()));
+		userList2.add(new User("Joanna", "Polanska", "hehe", "joanna@gmail.com", "Just nike", new ArrayList<>()));
+		userList2.add(new User("Marcin", "Nowak", "password", "nowak@wp.pl", "Yolo", new ArrayList<>()));
 
-		userList3.add(new User("Talar", "Sadalla", "password", "talarsadalla@yahoo.com", "Just keep walking"));
-		userList3.add(new User("Marcin", "Nowak", "password", "nowak@wp.pl", "Yolo"));
-		userList3.add(new User("Olek", "Tomaszewski", "1234", "olek@yahoo.com", "Let the force be with You"));
+		userList3.add(new User("Talar", "Sadalla", "password", "talarsadalla@yahoo.com", "Just keep walking",
+				new ArrayList<>()));
+		userList3.add(new User("Marcin", "Nowak", "password", "nowak@wp.pl", "Yolo", new ArrayList<>()));
+		userList3.add(new User("Olek", "Tomaszewski", "1234", "olek@yahoo.com", "Let the force be with You",
+				new ArrayList<>()));
 
-		userList4.add(new User("Talar", "Sadalla", "password", "talarsadalla@yahoo.com", "Just keep walking"));
-		userList4.add(new User("Joanna", "Polanska", "hehe", "joanna@gmail.com", "Just nike"));
-		userList4.add(new User("Olek", "Tomaszewski", "1234", "olek@yahoo.com", "Let the force be with You"));
+		userList4.add(new User("Talar", "Sadalla", "password", "talarsadalla@yahoo.com", "Just keep walking",
+				new ArrayList<>()));
+		userList4.add(new User("Joanna", "Polanska", "hehe", "joanna@gmail.com", "Just nike", new ArrayList<>()));
+		userList4.add(new User("Olek", "Tomaszewski", "1234", "olek@yahoo.com", "Let the force be with You",
+				new ArrayList<>()));
 
 		fullGameList.add(new Game("Monopoly", GameType.WORKER_PLACEMENT, 2, 8, 1.5, true));
 		fullGameList.add(new Game("Warhammer", GameType.DECK_BUILDERS, 2, 4, 6, false));
@@ -66,12 +74,26 @@ public class ChallengeRepositoryImpl implements ChallengeRepository {
 	}
 
 	@Override
+	public long getGameWinner(Challenge challenge) {
+		for (int i = 0; i < challengelist.size(); i++) {
+			if (challengelist.get(i).equals(challenge))
+				return challengelist.get(i).getUserWithWin();
+		}
+		throw new NoSuchElementException();
+	}
+
+	@Override
 	public Challenge getChallenge(Game game) {
 		for (int i = 0; i < challengelist.size(); i++) {
-			if (challengelist.get(i).getGame().equals(game.getGameName()))
+			if (challengelist.get(i).getGame().getGameName().equals(game.getGameName()))
 				return challengelist.get(i);
 		}
 		throw new NoSuchElementException();
+	}
+
+	@Override
+	public List<Challenge> getChallengeList() {
+		return challengelist;
 	}
 
 }

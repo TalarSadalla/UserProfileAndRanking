@@ -9,13 +9,13 @@ public interface AvailabilityRepository {
 
 	void addAvailibility(long userId, String beginHour, String endHour);
 
-	void addAvailibility(long userId, Availability availability);
+	void addAvailibility(Availability availability);
+
+	List<Availability> getUserAvailabilities(long userId);
 
 	void editAvailibility(long userId, Availability oldAvailability, Availability newAvailability);
 
-	void deleteAvailibility(long userId, Availability availabilityToDelete, String reason);
+	Availability deleteAvailibility(long userId, Availability availabilityToDelete, String reason);
 
 	Map<Long, List<Availability>> getAllAvailabilities();
-
-	public List<Availability> getUserAvailabilities(long userId);
 }

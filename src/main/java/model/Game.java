@@ -1,6 +1,5 @@
 package model;
 
-import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.persistence.Entity;
@@ -18,7 +17,7 @@ public class Game {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private AtomicLong uniqueId;
+	private static AtomicLong uniqueId = new AtomicLong(1);
 
 	private long gameId;
 	private GameType gameType;
@@ -27,7 +26,10 @@ public class Game {
 	private int maximumNumberOfPlayers;
 	private double gameDuration;
 	private boolean oneBoardFlag;
-	private List<Game> userGameList;
+
+	public Game() {
+		super();
+	}
 
 	public Game(GameBuilder gameBuilder) {
 		this.gameName = gameBuilder.gameName;
@@ -41,7 +43,7 @@ public class Game {
 	public Game(String gameName, GameType gameType, int minimumNumberOfPlayers, int maximumNumberOfPlayers,
 			double gameDuration, boolean oneBoardFlag) {
 		super();
-		this.gameId = uniqueId.incrementAndGet();
+		this.gameId = incrementId();
 		this.gameType = gameType;
 		this.gameName = gameName;
 		this.minimumNumberOfPlayers = minimumNumberOfPlayers;
@@ -50,12 +52,12 @@ public class Game {
 		this.oneBoardFlag = oneBoardFlag;
 	}
 
-	public AtomicLong getUniqueId() {
-		return uniqueId;
-	}
-
 	public long getGameId() {
 		return gameId;
+	}
+
+	private static long incrementId() {
+		return uniqueId.getAndIncrement();
 	}
 
 	public GameType getGameType() {
@@ -106,8 +108,11 @@ public class Game {
 		this.oneBoardFlag = oneBoardFlag;
 	}
 
-	public List<Game> getUserGameList() {
-		return userGameList;
+	@Override
+	public String toString() {
+		return "Game [gameId=" + gameId + ", gameType=" + gameType + ", gameName=" + gameName
+				+ ", minimumNumberOfPlayers=" + minimumNumberOfPlayers + ", maximumNumberOfPlayers="
+				+ maximumNumberOfPlayers + ", gameDuration=" + gameDuration + ", oneBoardFlag=" + oneBoardFlag + "]";
 	}
 
 	public static class GameBuilder {
