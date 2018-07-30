@@ -1,5 +1,6 @@
 package com.example.userProfileAndRanking.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.userProfileAndRanking.dto.ChallengeTO;
 import com.example.userProfileAndRanking.dto.LevelTO;
 import com.example.userProfileAndRanking.dto.StatisticsTO;
+import com.example.userProfileAndRanking.model.Challenge;
 import com.example.userProfileAndRanking.repository.StatisticsRepository;
 
 @Service
@@ -36,7 +38,12 @@ public class UserStatisticsServiceImpl implements UserStatisticsService {
 
 	@Override
 	public List<ChallengeTO> getUserChallengeHistory(long userId) {
-		return modelMapper.map(statisticsRepository.getUserGameHistory(userId), ChallengeTO.class);
+		List<Challenge> userGameHistory = statisticsRepository.getUserGameHistory(userId);
+		List<ChallengeTO> userGameHistoryTO = new ArrayList<>();
+		for (int i = 0; i < userGameHistory.size(); i++) {
+			userGameHistoryTO.add(modelMapper.map(userGameHistory.get(i), ChallengeTO.class));
+		}
+		return userGameHistoryTO;
 	}
 
 }

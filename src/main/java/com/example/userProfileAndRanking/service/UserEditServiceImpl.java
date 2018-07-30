@@ -38,26 +38,51 @@ public class UserEditServiceImpl implements UserEditService {
 
 	@Override
 	public List<UserTO> findUserByFirstName(String firstName) {
-		return modelMapper.map(userRepository.findUserByFirstName(firstName), UserTO.class);
+		List<User> foundUsersList = userRepository.findUserByFirstName(firstName);
+		List<UserTO> foundUsersListTO = new ArrayList<>();
+		for (int i = 0; i < foundUsersList.size(); i++) {
+			foundUsersListTO.add(modelMapper.map(foundUsersList.get(i), UserTO.class));
+		}
+		return foundUsersListTO;
 	}
 
 	@Override
 	public List<UserTO> findUserByLastName(String lastName) {
-		return modelMapper.map(userRepository.findUserByLastName(lastName), UserTO.class);
+		List<User> foundUsersList = userRepository.findUserByLastName(lastName);
+		List<UserTO> foundUsersListTO = new ArrayList<>();
+		for (int i = 0; i < foundUsersList.size(); i++) {
+			foundUsersListTO.add(modelMapper.map(foundUsersList.get(i), UserTO.class));
+		}
+		return foundUsersListTO;
 	}
 
 	@Override
 	public List<UserTO> findUserByEmail(String email) {
-		return modelMapper.map(userRepository.findUserByEmail(email), UserTO.class);
+		List<User> foundUsersList = userRepository.findUserByEmail(email);
+		List<UserTO> foundUsersListTO = new ArrayList<>();
+		for (int i = 0; i < foundUsersList.size(); i++) {
+			foundUsersListTO.add(modelMapper.map(foundUsersList.get(i), UserTO.class));
+		}
+		return foundUsersListTO;
 	}
 
 	@Override
 	public List<UserTO> findUserByFirstNameAndLastName(String firstName, String lastName) {
-		return modelMapper.map(userRepository.findUserByFirstNameAndLastName(firstName, lastName), UserTO.class);
+		List<User> foundUsersList = userRepository.findUserByFirstNameAndLastName(firstName, lastName);
+		List<UserTO> foundUsersListTO = new ArrayList<>();
+		for (int i = 0; i < foundUsersList.size(); i++) {
+			foundUsersListTO.add(modelMapper.map(foundUsersList.get(i), UserTO.class));
+		}
+		return foundUsersListTO;
 	}
 
 	public List<UserTO> findUserByLiveMotto(String liveMotto) {
-		return modelMapper.map(userRepository.findUserByLiveMotto(liveMotto), UserTO.class);
+		List<User> foundUsersList = userRepository.findUserByLiveMotto(liveMotto);
+		List<UserTO> foundUsersListTO = new ArrayList<>();
+		for (int i = 0; i < foundUsersList.size(); i++) {
+			foundUsersListTO.add(modelMapper.map(foundUsersList.get(i), UserTO.class));
+		}
+		return foundUsersListTO;
 	}
 
 	@Override
@@ -76,8 +101,11 @@ public class UserEditServiceImpl implements UserEditService {
 		} else if (usertoFind.getFirstName() == null && usertoFind.getLastName() == null
 				&& usertoFind.getEmail() != null) {
 			foundUsersList.addAll(userRepository.findUserByEmail(usertoFind.getEmail()));
+		} else if (usertoFind.getFirstName() != null && usertoFind.getLastName() != null
+				&& usertoFind.getEmail() == null) {
+			foundUsersList.addAll(
+					userRepository.findUserByFirstNameAndLastName(usertoFind.getFirstName(), usertoFind.getLastName()));
 		}
-
 		List<UserTO> foundUsersListTO = new ArrayList<>();
 		for (int i = 0; i < foundUsersList.size(); i++) {
 			foundUsersListTO.add(modelMapper.map(foundUsersList.get(i), UserTO.class));

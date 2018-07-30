@@ -1,6 +1,7 @@
 package com.example.userProfileAndRanking.service;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -53,7 +54,11 @@ public class UserPlayabilityServiceImpl implements UserPlayabilityService {
 	}
 
 	public List<UserTO> listOfAvailableUsersInSimilarAvailableHours(long userId) {
-		List<UserTO> userListTO = modelMapper.map(userRepository.findAllUsers(), UserTO.class);
+		List<User> foundUsersList = userRepository.findAllUsers();
+		List<UserTO> userListTO = new ArrayList<>();
+		for (int i = 0; i < foundUsersList.size(); i++) {
+			userListTO.add(modelMapper.map(foundUsersList.get(i), UserTO.class));
+		}
 		Map<Long, List<Availability>> availabilityMap = availabilityRepository.getAllAvailabilities();
 		List<Availability> userAvailability = availabilityRepository.getUserAvailabilities(userId);
 		for (Availability availability : userAvailability) {
@@ -73,7 +78,10 @@ public class UserPlayabilityServiceImpl implements UserPlayabilityService {
 		}
 		Random rand = new Random();
 		int value = rand.nextInt(userRepository.getUserGameList(userId).size());
-		List<User> userList = modelMapper.map(userListTO, User.class);
+		List<User> userList = new ArrayList<>();
+		for (int i = 0; i < userListTO.size(); i++) {
+			userList.add(modelMapper.map(userListTO.get(i), User.class));
+		}
 		challengeRepository.createChallenge(userList, userRepository.getUserGameList(userId).get(value));
 		return userListTO;
 	}

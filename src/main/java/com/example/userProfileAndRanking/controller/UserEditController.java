@@ -26,14 +26,14 @@ public class UserEditController {
 		return userEditService.showUser(id);
 	}
 
-	@RequestMapping(value = "/editUser", method = RequestMethod.POST)
+	@RequestMapping(value = "/editUser", method = RequestMethod.PUT)
 	public String editUser(@RequestBody UserTO userTO) {
 		ModelAndView modelAndView = new ModelAndView("editUser");
 		modelAndView.addObject("user", userEditService.editUser(userTO.getUserId(), userTO));
 		return "Edited user";
 	}
 
-	@RequestMapping(value = "/deleteUser/{id}")
+	@RequestMapping(value = "/deleteUser/{id}", method = RequestMethod.DELETE)
 	public String deleteUser(@PathVariable Long id) {
 		ModelAndView modelAndView = new ModelAndView("deleteUser");
 		modelAndView.addObject("user", userEditService.deleteUser(id));
