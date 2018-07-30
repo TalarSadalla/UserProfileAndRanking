@@ -7,15 +7,17 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import enums.Level;
-import model.Challenge;
-import model.Statistics;
-import repositoryImpl.StatisticsRepositoryImpl;
+import com.example.userProfileAndRanking.enums.Level;
+import com.example.userProfileAndRanking.model.Challenge;
+import com.example.userProfileAndRanking.model.Statistics;
+import com.example.userProfileAndRanking.repository.StatisticsRepositoryImpl;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ContextConfiguration(classes = StatisticsRepositoryImpl.class)
 public class StatisticsRepositoryImplTest {
 
 	@Test

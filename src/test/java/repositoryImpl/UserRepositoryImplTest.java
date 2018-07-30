@@ -6,14 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import enums.GameType;
-import model.Game;
-import model.User;
-import repositoryImpl.UserRepositoryImpl;
+import com.example.userProfileAndRanking.enums.GameType;
+import com.example.userProfileAndRanking.model.Game;
+import com.example.userProfileAndRanking.model.User;
+import com.example.userProfileAndRanking.repository.UserRepositoryImpl;
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@ContextConfiguration(classes = UserRepositoryImpl.class)
 public class UserRepositoryImplTest {
 
 	@Test

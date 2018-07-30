@@ -7,14 +7,17 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import enums.GameType;
-import model.Game;
-import repositoryImpl.GameRepositoryImpl;
+import com.example.userProfileAndRanking.model.Game;
+import com.example.userProfileAndRanking.repository.GameRepositoryImpl;
+
+import com.example.userProfileAndRanking.enums.GameType;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ContextConfiguration(classes = GameRepositoryImpl.class)
 public class GameRepositoryImplTest {
 
 	@Test

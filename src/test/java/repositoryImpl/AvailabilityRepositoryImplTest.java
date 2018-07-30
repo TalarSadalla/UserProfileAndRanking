@@ -10,13 +10,15 @@ import java.util.NoSuchElementException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import model.Availability;
-import repositoryImpl.AvailabilityRepositoryImpl;
+import com.example.userProfileAndRanking.model.Availability;
+import com.example.userProfileAndRanking.repository.AvailabilityRepositoryImpl;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ContextConfiguration(classes = AvailabilityRepositoryImpl.class)
 public class AvailabilityRepositoryImplTest {
 
 	@Test
