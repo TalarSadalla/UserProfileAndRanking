@@ -1,107 +1,69 @@
 package controller;
 
 import static org.junit.Assert.assertEquals;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.userProfileAndRanking.UserProfileAndRankingApplication;
 import com.example.userProfileAndRanking.dto.UserTO;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-
-@SpringBootTest(classes = { UserProfileAndRankingApplication.class })
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = UserProfileAndRankingApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserEditControllerTest {
+
+	@LocalServerPort
+	private int port;
+
+	TestRestTemplate restTemplate = new TestRestTemplate();
+
+	HttpHeaders headers = new HttpHeaders();
+
+	private String createURLWithPort(String uri) {
+		return "http://localhost:" + port + uri;
+	}
 
 	@Test
 	public void showUserTestWhenExist() {
-		// given
-		RestTemplate restTemplate = new RestTemplate();
-		String fooResourceUrl = "http://localhost:8080/showUser";
-
-		// when
-		ResponseEntity<UserTO> response = restTemplate.getForEntity(fooResourceUrl + "/2", UserTO.class);
-
-		// then
-		assertEquals(response.getStatusCode(), HttpStatus.OK);
+		HttpEntity<UserTO> entity = new HttpEntity<UserTO>(null, headers);
+		ResponseEntity<UserTO> response = restTemplate.exchange(createURLWithPort("/showUser/2"), HttpMethod.GET,
+				entity, UserTO.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals("Joanna", response.getBody().getFirstName());
-	}
-
-	@Test(expected = NoSuchElementException.class)
-	public void showUserTestWhenNotExist() {
-		// given
-		RestTemplate restTemplate = new RestTemplate();
-
-		// when
-		String fooResourceUrl = "http://localhost:8080/showUser";
-
-		// when
-		restTemplate.getForEntity(fooResourceUrl + "/5", UserTO.class);
 	}
 
 	@Test
 	public void editUserTest() {
-		// given
-		RestTemplate restTemplate = new RestTemplate();
-		String jsonString = "{\"userId\":1,\"firstName\":\"Joanna\",\"lastName\":\"Kowalski\",\"password\":\"hehe\",\"email\":\"joanna@gmail.com\",\"liveMotto\":\"Just nike\",\"userGamesList\":[]}";
-		String fooResourceUrl = "http://localhost:8080/showUser";
-		HttpHeaders headers = new HttpHeaders();
+		TestRestTemplate restTemplate = new TestRestTemplate();
+		String requestJson = "{\"userId\":2,\"firstName\":\"Joanna\",\"lastName\":\"Sadalla\",\"password\":\"test\",\"email\":\"joanna@gmail.com\",\"liveMotto\":\"Just adidas\",\"userGamesList\":[]}";
 		headers.setContentType(MediaType.APPLICATION_JSON);
-
-		// when
-		HttpEntity<String> request = new HttpEntity<>(jsonString, headers);
-		restTemplate.put("http://localhost:8080/editUser", request);
-		ResponseEntity<UserTO> response = restTemplate.getForEntity(fooResourceUrl + "/1", UserTO.class);
-
-		// then
-		assertEquals(response.getStatusCode(), HttpStatus.OK);
-		assertEquals("Joanna", response.getBody().getFirstName());
-		assertEquals("Kowalski", response.getBody().getLastName());
+		HttpEntity<String> entity = new HttpEntity<String>(requestJson, headers);
+		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/editUser"), HttpMethod.PUT, entity,
+				String.class);
+		assertTrue(response != null);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 
 	@Test
 	public void deleteUserTestWhenExist() {
-		// given
-		RestTemplate restTemplate = new RestTemplate();
-		String fooResourceUrl = "http://localhost:8080/deleteUser/{id}";
-		String fooResourceUrlShowUser = "http://localhost:8080/showUser";
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("id", "2");
-
-		// when
-		restTemplate.delete(fooResourceUrl, params);
-		ResponseEntity<UserTO> response = restTemplate.getForEntity(fooResourceUrlShowUser + "/2", UserTO.class);
-		assertEquals(response.getStatusCode(), HttpStatus.OK);
-		assertEquals("Deleted User", response.getHeaders());
-	}
-
-	@Test
-	public void findUserTest() {
-		// given
-		RestTemplate restTemplate = new RestTemplate();
-		String jsonString = "{\"lastName\":\"Sadalla\"}";
-		String fooResourceUrl = "http://localhost:8080/findUser";
-		HttpHeaders headers = new HttpHeaders();
+		UserTO userTO = new UserTO("Jan", "Kowalski", "1234", "jan@wp.pl", "I'm lovin it");
 		headers.setContentType(MediaType.APPLICATION_JSON);
-
-		// when
-		HttpEntity<String> request = new HttpEntity<>(jsonString, headers);
-		ResponseEntity<UserTO> response = restTemplate.postForEntity(fooResourceUrl, request, UserTO.class);
-
-		// then
-		assertEquals(response.getStatusCode(), HttpStatus.OK);
+		HttpEntity<UserTO> entity = new HttpEntity<UserTO>(userTO, headers);
+		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/deleteUser/1"), HttpMethod.DELETE,
+				entity, String.class);
+		assertTrue(response != null);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 
 }
